@@ -1,0 +1,65 @@
+name: Inspect migration sources
+on:
+  workflow_dispatch:
+  push:
+    branches: [migration/google-sites]
+    paths: [.github/workflows/source-check.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Inspect the existing public website and parent links
+        run: |
+          python3 - <<'PY'
+          import json
+          import urllib.request
+          from html.parser import HTMLParser
+          from urllib.parse import urljoin
+          class Page(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.hidden = 0
+                  self.text = []
+                  self.links = []
+                  self.images = []
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  if tag in ("script", "style"):
+                      self.hidden += 1
+                  if tag == "a" and attrs.get("href"):
+                      self.links.append(attrs["href"])
+                  if tag == "img" and attrs.get("src"):
+                      self.images.append({"src": attrs["src"], "alt": attrs.get("alt", "")})
+              def handle_endtag(self, tag):
+                  if tag in ("script", "style"):
+                      self.hidden = max(0, self.hidden - 1)
+              def handle_data(self, data):
+                  if not self.hidden and data.strip():
+                      self.text.append(" ".join(data.split()))
+          sources = [
+              "https://www.starshavenchildcare.ca/",
+              "https://bit.ly/4as5Cgs",
+              "https://bit.ly/4bmp3aV",
+          ]
+          for url in sources:
+              try:
+                  req = urllib.request.Request(url, headers={"User-Agent": "StarsHavenWebsiteMigration/1.0"})
+                  with urllib.request.urlopen(req, timeout=30) as response:
+                      body = response.read(2000000)
+                      final_url = response.url
+                      mime = response.headers.get("content-type", "")
+                      status = response.status
+                  result = {"source": url, "url": final_url, "status": status, "content_type": mime}
+                  if "html" in mime:
+                      page = Page()
+                      page.feed(body.decode("utf-8", errors="replace"))
+                      result["text"] = page.text[:200]
+                      result["links"] = list(dict.fromkeys(urljoin(final_url, link) for link in page.links))[:60]
+                      result["images"] = page.images[:30]
+                  print("SOURCE_RESULT " + json.dumps(result, ensure_ascii=False))
+              except Exception as exc:
+                  print("SOURCE_RESULT " + json.dumps({"source": url, "error": str(exc)}))
+          PY
