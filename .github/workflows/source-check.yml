@@ -15,6 +15,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json
+          import base64
           import urllib.request
           from html.parser import HTMLParser
           from urllib.parse import urljoin
@@ -40,9 +41,11 @@ jobs:
                   if not self.hidden and data.strip():
                       self.text.append(" ".join(data.split()))
           sources = [
-              "https://www.starshavenchildcare.ca/",
-              "https://bit.ly/4as5Cgs",
-              "https://bit.ly/4bmp3aV",
+              "https://www.starshavenchildcare.ca/about",
+              "https://www.starshavenchildcare.ca/programs",
+              "https://www.starshavenchildcare.ca/enrolment-waitlist",
+              "https://www.starshavenchildcare.ca/licensing-journey",
+              "https://www.starshavenchildcare.ca/contact",
           ]
           for url in sources:
               try:
