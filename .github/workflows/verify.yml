@@ -1,0 +1,42 @@
+name: Verify website
+
+on:
+  pull_request:
+  push:
+    branches: [migration/google-sites]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+      - name: Rebuild static pages
+        run: |
+          python3 scripts/build_site.py
+          git diff --exit-code -- site
+      - name: Check page structure and local links
+        run: python3 tests/static_check.py
+      - name: Install browser tooling
+        run: |
+          npm install --no-save --no-package-lock playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Run desktop and mobile checks
+        run: |
+          python3 -m http.server 4173 --directory site > /tmp/stars-haven-server.log 2>&1 &
+          node tests/smoke.cjs
+      - name: Upload review website and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-review
+          path: |
+            site
+            review
+          retention-days: 30
