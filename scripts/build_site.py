@@ -4,6 +4,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 
 FORM_URL = "https://bit.ly/4as5Cgs"
+FORM_EMBED_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdVy-qEtHOOr5HUt82IlAuSq966nuetUYN3DJNvoYyVbgRt3Q/viewform?embedded=true"
 MENU_URL = "https://bit.ly/4bmp3aV"
 EMAIL = "starshavenchildcare@gmail.com"
 PHONE_DISPLAY = "437-990-1634"
@@ -156,6 +157,7 @@ FAQ = [
 
 ENROLMENT_BODY = intro("A thoughtful start", "Let’s find the right fit.", "Tell us a little about your child and the childcare you’re looking for. We’ll take the next steps together.") + f"""
 <section class="enrol-panel wrap"><div><h2>Start with an enquiry.</h2><p>Use our pre-enrolment form to enquire about care or ask to join the waitlist.</p><p class="small">Submitting an enquiry does not guarantee or reserve a childcare space.</p></div>{button('Open pre-enrolment form', FORM_URL, False, True)}</section>
+<section class="section wrap form-section" aria-labelledby="form-title"><div class="form-heading"><p class="eyebrow">Pre-enrolment form</p><h2 id="form-title">Tell us about your childcare needs.</h2><p>Complete the form below. If it does not display properly on your device, use the open-form button above.</p></div><div class="form-embed"><iframe src="{FORM_EMBED_URL}" title="Stars Haven pre-enrolment form" loading="lazy">Loading…</iframe></div></section>
 <section class="section wrap"><p class="eyebrow">What happens next</p><h2>Three steps to get acquainted.</h2><ol class="cards three steps"><li class="card"><span class="value-number">01</span><h3>Share your needs</h3><p>Tell us your child’s age, preferred start date and the days and hours you need.</p></li><li class="card"><span class="value-number">02</span><h3>Connect with Mary</h3><p>Discuss availability, ask questions and arrange a meet and greet when appropriate.</p></li><li class="card"><span class="value-number">03</span><h3>Plan the next steps</h3><p>If a place is agreed, complete the YMCA registration process and discuss your child’s transition.</p></li></ol></section>
 <section class="section wrap faq-section"><div><p class="eyebrow">Questions are welcome</p><h2>A few things families ask.</h2></div><div class="faq-list">{''.join(f'<details><summary>{question}</summary><p>{answer}</p></details>' for question, answer in FAQ)}</div></section>
 """
