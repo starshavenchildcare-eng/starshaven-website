@@ -15,6 +15,8 @@ class Inspector(HTMLParser):
         self.lang = None
         self.has_main = False
         self.has_description = False
+        self.canonical = None
+        self.open_graph = set()
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
@@ -26,6 +28,10 @@ class Inspector(HTMLParser):
             self.has_main = True
         if tag == "meta" and attrs.get("name") == "description" and attrs.get("content"):
             self.has_description = True
+        if tag == "meta" and attrs.get("property", "").startswith("og:") and attrs.get("content"):
+            self.open_graph.add(attrs["property"])
+        if tag == "link" and attrs.get("rel") == "canonical":
+            self.canonical = attrs.get("href")
         if attrs.get("id"):
             self.ids.append(attrs["id"])
         if tag in {"a", "link", "script"}:
@@ -64,6 +70,12 @@ for page in html_files:
         errors.append(f"{page}: missing main landmark")
     if not parser.has_description:
         errors.append(f"{page}: missing description")
+    if not parser.canonical or not parser.canonical.startswith("https://starshavenchildcare.ca/"):
+        errors.append(f"{page}: missing or invalid canonical URL")
+    required_open_graph = {"og:type", "og:locale", "og:site_name", "og:title", "og:description", "og:url"}
+    missing_open_graph = sorted(required_open_graph - parser.open_graph)
+    if missing_open_graph:
+        errors.append(f"{page}: missing Open Graph metadata {missing_open_graph}")
     duplicates = sorted({item for item in parser.ids if parser.ids.count(item) > 1})
     if duplicates:
         errors.append(f"{page}: duplicate ids {duplicates}")

@@ -68,8 +68,18 @@ def cta(prefix: str) -> str:
     return f"""<section class="cta wrap" aria-labelledby="cta-title"><div><p class="eyebrow">Let’s get to know your family</p><h2 id="cta-title">Your next little chapter<br>starts with a conversation.</h2><p>Tell us about your child, the care you need and your preferred start date.</p></div>{button('Enquire about care', prefix + 'enrolment-waitlist/')}</section>"""
 
 
-def render(active: str, title: str, description: str, body: str, directory: str = "", robots: str = "index, follow") -> str:
+def render(
+    active: str,
+    title: str,
+    description: str,
+    body: str,
+    directory: str = "",
+    robots: str = "index, follow",
+    canonical_path: str | None = None,
+) -> str:
     prefix = "../" if directory else "./"
+    canonical_path = canonical_path if canonical_path is not None else (f"{directory}/" if directory else "")
+    canonical_url = f"https://starshavenchildcare.ca/{canonical_path}"
     return f"""<!doctype html>
 <html lang="en-CA">
 <head>
@@ -78,6 +88,14 @@ def render(active: str, title: str, description: str, body: str, directory: str 
   <meta name="description" content="{description}">
   <meta name="robots" content="{robots}">
   <meta name="theme-color" content="#263e36">
+  <link rel="canonical" href="{canonical_url}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:site_name" content="Stars Haven Childcare">
+  <meta property="og:title" content="{title} | Stars Haven Childcare">
+  <meta property="og:description" content="{description}">
+  <meta property="og:url" content="{canonical_url}">
+  <meta name="twitter:card" content="summary">
   <title>{title} | Stars Haven Childcare</title>
   <link rel="icon" type="image/svg+xml" href="{prefix}assets/favicon.svg">
   <link rel="stylesheet" href="{prefix}assets/style.css">
@@ -104,6 +122,7 @@ HOME_BODY = f"""
   <div class="play-scene" aria-hidden="true"><span class="scene-small-star">✧</span><div class="scene-circle"></div><div class="scene-arch"></div><div class="scene-card"><span class="eyebrow">EVERY LITTLE ONE</span><span class="scene-words">Loved.<br>Seen.<br>Known.</span><span class="scene-spark">✦</span></div><div class="scene-block block-one">a</div><div class="scene-block block-two">b</div><div class="scene-block block-three">c</div><span class="scene-caption">room to play. space to grow.</span></div>
 </section>
 <section class="facts wrap" aria-label="Our childcare at a glance"><div><span class="fact-label">Our community</span><strong>Port of Newcastle</strong></div><div><span class="fact-label">Our age focus</span><strong>18 months–4 years</strong></div><div><span class="fact-label">Our setting</span><strong>Small group, home care</strong></div><div><span class="fact-label">Typical hours</span><strong>8:00 a.m.–4:00 p.m.</strong></div></section>
+<section class="availability wrap" aria-label="Fees and availability"><div><span class="availability-dot" aria-hidden="true"></span><strong>Currently accepting childcare enquiries</strong></div><p>Stars Haven participates in CWELCC, with fees currently approximately $22 per day. Availability depends on your child’s age, schedule and preferred start date.</p></section>
 <section class="section wrap">
   <div class="section-heading"><div><p class="eyebrow">Big care for little people</p><h2>Growing through play.<br>Grounded in love.</h2></div><p>Our mission is to nurture joyful, confident and kind-hearted children through rich play experiences, meaningful relationships and Christian values.</p></div>
   <div class="cards three"><article class="card card-cream"><span class="card-symbol" aria-hidden="true">✦</span><h3>A sense of belonging</h3><p>A welcoming small group where children are seen, supported and encouraged at their own pace.</p></article><article class="card card-sage"><span class="card-symbol" aria-hidden="true">○</span><h3>Joy in discovery</h3><p>Stories, building, sensory exploration, art and music make room for curiosity throughout the day.</p></article><article class="card card-peach"><span class="card-symbol" aria-hidden="true">⌁</span><h3>Everyday connection</h3><p>Gentle routines and communication with families help home and childcare feel connected.</p></article></div>
@@ -167,6 +186,8 @@ ENROLMENT_BODY = intro("A thoughtful start", "Let’s find the right fit.", "Tel
     <label><span>Child’s full name <b aria-hidden="true">*</b></span><input type="text" name="child-name" required></label>
     <label><span>Child’s date of birth <b aria-hidden="true">*</b></span><input type="date" name="child-date-of-birth" required></label>
     <label><span>Preferred start date <b aria-hidden="true">*</b></span><input type="date" name="preferred-start-date" required></label>
+    <label><span>Preferred drop-off time <b aria-hidden="true">*</b></span><input type="time" name="preferred-drop-off-time" required></label>
+    <label><span>Preferred pickup time <b aria-hidden="true">*</b></span><input type="time" name="preferred-pickup-time" required></label>
     <fieldset><legend>Care needed <b aria-hidden="true">*</b></legend><div class="choice-row"><label><input type="radio" name="care-needs" value="Full-time" required> Full-time</label><label><input type="radio" name="care-needs" value="Part-time"> Part-time</label></div></fieldset>
     <fieldset><legend>Current location <b aria-hidden="true">*</b></legend><select name="current-location" required><option value="">Select your area</option><option>Newcastle</option><option>Bowmanville</option><option>Courtice</option><option>Other</option></select></fieldset>
     <fieldset class="full"><legend>Preferred days <b aria-hidden="true">*</b></legend><div class="choice-grid"><label><input type="checkbox" name="preferred-days" value="Monday"> Monday</label><label><input type="checkbox" name="preferred-days" value="Tuesday"> Tuesday</label><label><input type="checkbox" name="preferred-days" value="Wednesday"> Wednesday</label><label><input type="checkbox" name="preferred-days" value="Thursday"> Thursday</label><label><input type="checkbox" name="preferred-days" value="Friday"> Friday</label></div><p class="field-note">Select all days that apply.</p></fieldset>
@@ -193,7 +214,7 @@ CONTACT_BODY = intro("We’d love to hear from you", "Hello, neighbour.", "Wheth
 """
 
 PRIVACY_BODY = intro("Website information", "Your enquiry, your choice.", "You can browse this website without submitting personal information.") + f"""
-<section class="section wrap prose"><h2>Browsing the website</h2><p>This website does not include analytics scripts or advertising trackers. The hosting provider may process technical information, such as IP addresses and request logs, to deliver and protect the site.</p><h2>Enrolment enquiries</h2><p>The pre-enrolment form is processed and stored by Netlify on behalf of Stars Haven Childcare. The information you provide is used to review your childcare needs, contact you about availability and manage the enquiry or waitlist process. Please do not include information beyond what is reasonably needed for your enquiry.</p><h2>Other links</h2><p>Menu and social links open services with their own privacy practices. Contacting us by email or telephone uses your chosen email or telephone service.</p><h2>Questions</h2><p>Email <a href="mailto:{EMAIL}">{EMAIL}</a> to ask about the information you share with Stars Haven.</p></section>
+<section class="section wrap prose"><h2>Browsing the website</h2><p>This website does not include analytics scripts or advertising trackers. The hosting provider may process technical information, such as IP addresses and request logs, to deliver and protect the site.</p><h2>Enrolment enquiries</h2><p>The pre-enrolment form is processed and stored by Netlify on behalf of Stars Haven Childcare. The information you provide is used to assess your childcare needs, contact you about availability and manage your enquiry or waitlist request. Please provide only information that is relevant to your childcare enquiry.</p><h2>Access and retention</h2><p>Access is limited to Stars Haven and service providers needed to process your enquiry. Information is kept only as long as reasonably needed for the enquiry or waitlist process and any applicable recordkeeping, then removed.</p><h2>Your choices</h2><p>You may request access to, correction of or deletion of information you submitted by emailing <a href="mailto:{EMAIL}">{EMAIL}</a>.</p><h2>Other links</h2><p>Menu and social links open services with their own privacy practices. Contacting us by email or telephone uses your chosen email or telephone service.</p></section>
 """
 
 THANK_YOU_BODY = intro("Enquiry received", "Thank you for getting in touch.", "Your pre-enrolment enquiry has been submitted to Stars Haven Childcare.") + f"""
@@ -203,13 +224,13 @@ THANK_YOU_BODY = intro("Enquiry received", "Thank you for getting in touch.", "Y
 
 PAGES = {
     "index.html": render("home", "Home childcare in Port of Newcastle", "Stars Haven Childcare is a YMCA Licensed Home Childcare program in Port of Newcastle, led by Mary Aliu, RECE.", HOME_BODY),
-    "home/index.html": render("home", "Home childcare in Port of Newcastle", "Nurturing, play-based home childcare in Port of Newcastle.", HOME_BODY.replace('href="./', 'href="../'), "home", robots="noindex, follow"),
+    "home/index.html": render("home", "Home childcare in Port of Newcastle", "Nurturing, play-based home childcare in Port of Newcastle.", HOME_BODY.replace('href="./', 'href="../'), "home", robots="noindex, follow", canonical_path=""),
     "about/index.html": render("about", "About Mary and Stars Haven", "Meet Mary Aliu, RECE, and learn about the values behind Stars Haven Childcare in Port of Newcastle.", ABOUT_BODY, "about"),
     "programs/index.html": render("programs", "Our play-based program", "Explore the daily rhythm, weekly activities and meals at Stars Haven Childcare.", PROGRAM_BODY, "programs"),
     "enrolment-waitlist/index.html": render("enrolment", "Enrolment and waitlist", "Enquire about childcare or join the Stars Haven waitlist. Learn what happens next and find answers to common questions.", ENROLMENT_BODY, "enrolment-waitlist"),
     "licensing-journey/index.html": render("licensed", "YMCA licensed home childcare", "Information about Stars Haven’s current YMCA Licensed Home Childcare program and enrolment.", LICENSED_BODY, "licensing-journey"),
     "contact/index.html": render("contact", "Contact Stars Haven", "Contact Mary at Stars Haven Childcare in Port of Newcastle to discuss availability, care needs and a meet and greet.", CONTACT_BODY, "contact"),
-    "privacy/index.html": render("", "Website privacy", "How this informational website links families to Stars Haven’s existing contact and pre-enrolment options.", PRIVACY_BODY, "privacy"),
+    "privacy/index.html": render("", "Website privacy", "How Stars Haven Childcare handles website and pre-enrolment enquiry information.", PRIVACY_BODY, "privacy"),
     "thank-you/index.html": render("", "Thank you", "Confirmation that a Stars Haven Childcare pre-enrolment enquiry was submitted.", THANK_YOU_BODY, "thank-you", robots="noindex, follow"),
 }
 
@@ -220,6 +241,7 @@ PAGES["404.html"] = render(
     intro("Page not found", "Let’s get you back home.", "This page may have moved. You can return to the homepage or contact Mary.")
     + f'<section class="wrap section">{button("Go to the homepage", "./")}</section>',
     robots="noindex, follow",
+    canonical_path="404.html",
 )
 
 
@@ -228,6 +250,7 @@ def write_pages() -> None:
         destination = SITE / relative_path
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(content, encoding="utf-8")
+    (SITE / "_redirects").write_text("/home  /  301!\n/home/  /  301!\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

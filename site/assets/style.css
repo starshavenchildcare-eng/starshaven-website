@@ -82,6 +82,10 @@ main:focus { outline: none; }
 .facts > div:last-child { border: 0; }
 .fact-label { display: block; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 5px; color: var(--muted); }
 .facts strong { font-weight: 550; font-size: .98rem; }
+.availability { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding-block: 22px; border-bottom: 1px solid var(--line); }
+.availability > div { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.availability-dot { width: 9px; height: 9px; border-radius: 50%; background: #4f7a5d; box-shadow: 0 0 0 4px #dce9df; }
+.availability p { max-width: 680px; margin: 0; color: var(--muted); font-size: .88rem; }
 .section-heading { display: flex; justify-content: space-between; gap: 50px; align-items: end; margin-bottom: 30px; }
 .section-heading > div { flex: 1; }
 .section-heading > p { max-width: 435px; color: var(--muted); margin-bottom: 18px; }
@@ -263,6 +267,8 @@ main:focus { outline: none; }
   .facts strong { font-size: .87rem; }
   .fact-label { font-size: .64rem; }
   .facts > div { padding-right: 8px; }
+  .availability { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .availability > div { white-space: normal; }
   .section { padding-block: 40px; }
   .section-heading { margin-bottom: 20px; }
   h2 { font-size: 2rem; }

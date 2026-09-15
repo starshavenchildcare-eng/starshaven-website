@@ -3,7 +3,7 @@ const path = require("node:path");
 const { chromium } = require("playwright");
 
 const baseURL = process.env.BASE_URL || "http://127.0.0.1:4173";
-const routes = ["/", "/home/", "/about/", "/programs/", "/enrolment-waitlist/", "/licensing-journey/", "/contact/", "/privacy/"];
+const routes = ["/", "/home/", "/about/", "/programs/", "/enrolment-waitlist/", "/licensing-journey/", "/contact/", "/privacy/", "/thank-you/"];
 const reviewDir = path.resolve("review");
 fs.mkdirSync(reviewDir, { recursive: true });
 
@@ -54,6 +54,10 @@ function assert(condition, message) {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
     const page = await context.newPage();
     await page.goto(baseURL + "/enrolment-waitlist/", { waitUntil: "networkidle" });
+    assert(await page.locator('form[name="pre-enrolment"][data-netlify="true"]').count(), "Netlify pre-enrolment form is missing");
+    assert((await page.locator('form[name="pre-enrolment"]').getAttribute("action")) === "/thank-you", "Form confirmation route is incorrect");
+    assert(await page.locator('input[name="preferred-drop-off-time"][type="time"]').count(), "Preferred drop-off time is missing");
+    assert(await page.locator('input[name="preferred-pickup-time"][type="time"]').count(), "Preferred pickup time is missing");
     await page.locator("details").first().click();
     await page.screenshot({ path: path.join(reviewDir, "enrolment-mobile.png"), fullPage: true });
     assert(await page.locator('a[href="mailto:starshavenchildcare@gmail.com"]').count(), "Current contact email is missing");
