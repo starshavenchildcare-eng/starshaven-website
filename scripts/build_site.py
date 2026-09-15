@@ -69,7 +69,7 @@ def cta(prefix: str) -> str:
     return f"""<section class="cta wrap" aria-labelledby="cta-title"><div><p class="eyebrow">Let’s get to know your family</p><h2 id="cta-title">Your next little chapter<br>starts with a conversation.</h2><p>Tell us about your child, the care you need and your preferred start date.</p></div>{button('Enquire about care', prefix + 'enrolment-waitlist/')}</section>"""
 
 
-def render(active: str, title: str, description: str, body: str, directory: str = "") -> str:
+def render(active: str, title: str, description: str, body: str, directory: str = "", robots: str = "index, follow") -> str:
     prefix = "../" if directory else "./"
     return f"""<!doctype html>
 <html lang="en-CA">
@@ -77,7 +77,7 @@ def render(active: str, title: str, description: str, body: str, directory: str 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="{description}">
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="robots" content="{robots}">
   <meta name="theme-color" content="#263e36">
   <title>{title} | Stars Haven Childcare</title>
   <link rel="icon" type="image/svg+xml" href="{prefix}assets/favicon.svg">
@@ -177,7 +177,7 @@ PRIVACY_BODY = intro("Website information", "Your enquiry, your choice.", "You c
 
 PAGES = {
     "index.html": render("home", "Home childcare in Port of Newcastle", "Stars Haven Childcare is a YMCA Licensed Home Childcare program in Port of Newcastle, led by Mary Aliu, RECE.", HOME_BODY),
-    "home/index.html": render("home", "Home childcare in Port of Newcastle", "Nurturing, play-based home childcare in Port of Newcastle.", HOME_BODY.replace('href="./', 'href="../'), "home"),
+    "home/index.html": render("home", "Home childcare in Port of Newcastle", "Nurturing, play-based home childcare in Port of Newcastle.", HOME_BODY.replace('href="./', 'href="../'), "home", robots="noindex, follow"),
     "about/index.html": render("about", "About Mary and Stars Haven", "Meet Mary Aliu, RECE, and learn about the values behind Stars Haven Childcare in Port of Newcastle.", ABOUT_BODY, "about"),
     "programs/index.html": render("programs", "Our play-based program", "Explore the daily rhythm, weekly activities and meals at Stars Haven Childcare.", PROGRAM_BODY, "programs"),
     "enrolment-waitlist/index.html": render("enrolment", "Enrolment and waitlist", "Enquire about childcare or join the Stars Haven waitlist. Learn what happens next and find answers to common questions.", ENROLMENT_BODY, "enrolment-waitlist"),
@@ -192,6 +192,7 @@ PAGES["404.html"] = render(
     "The requested Stars Haven Childcare page could not be found.",
     intro("Page not found", "Let’s get you back home.", "This page may have moved. You can return to the homepage or contact Mary.")
     + f'<section class="wrap section">{button("Go to the homepage", "./")}</section>',
+    robots="noindex, follow",
 )
 
 
