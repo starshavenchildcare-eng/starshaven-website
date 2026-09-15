@@ -35,3 +35,16 @@ if (toggle && nav) {
     if (event.matches) closeMenu();
   });
 }
+
+const enrolmentForm = document.querySelector('form[name="pre-enrolment"]');
+
+if (enrolmentForm) {
+  const preferredDays = [...enrolmentForm.querySelectorAll('input[name="preferred-days"]')];
+  const validatePreferredDays = () => {
+    const message = preferredDays.some((day) => day.checked) ? "" : "Please select at least one preferred day.";
+    preferredDays[0]?.setCustomValidity(message);
+  };
+
+  preferredDays.forEach((day) => day.addEventListener("change", validatePreferredDays));
+  enrolmentForm.addEventListener("submit", validatePreferredDays);
+}
