@@ -124,7 +124,7 @@ HOME_BODY = f"""
 <section class="facts wrap" aria-label="Our childcare at a glance"><div><span class="fact-label">Our community</span><strong>Port of Newcastle</strong></div><div><span class="fact-label">Our age focus</span><strong>18 months–4 years</strong></div><div><span class="fact-label">Our setting</span><strong>Small group, home care</strong></div><div><span class="fact-label">Typical hours</span><strong>8:00 a.m.–4:00 p.m.</strong></div></section>
 <section class="availability wrap" aria-label="Fees and availability"><div><span class="availability-dot" aria-hidden="true"></span><strong>Currently accepting childcare enquiries</strong></div><p>Stars Haven participates in CWELCC, with fees currently approximately $22 per day. Availability depends on your child’s age, schedule and preferred start date.</p></section>
 <section class="section wrap">
-  <div class="section-heading"><div><p class="eyebrow">Big care for little people</p><h2>Growing through play.<br>Grounded in love.</h2></div><p>Our mission is to nurture joyful, confident and kind-hearted children through rich play experiences, meaningful relationships and Christian values.</p></div>
+  <div class="section-heading"><div><p class="eyebrow">Big care for little people</p><h2>Growing through play.<br>Grounded in love.</h2></div><p>Our mission is to nurture joyful, confident and kind-hearted children through rich play experiences, meaningful relationships and a strong sense of belonging.</p></div>
   <div class="cards three"><article class="card card-cream"><span class="card-symbol" aria-hidden="true">✦</span><h3>A sense of belonging</h3><p>A welcoming small group where children are seen, supported and encouraged at their own pace.</p></article><article class="card card-sage"><span class="card-symbol" aria-hidden="true">○</span><h3>Joy in discovery</h3><p>Stories, building, sensory exploration, art and music make room for curiosity throughout the day.</p></article><article class="card card-peach"><span class="card-symbol" aria-hidden="true">⌁</span><h3>Everyday connection</h3><p>Gentle routines and communication with families help home and childcare feel connected.</p></article></div>
 </section>
 <section class="educator section wrap"><div class="educator-name"><p class="eyebrow">Meet your educator</p><h2>Hello, I’m Mary.</h2><span class="pill">Registered Early Childhood Educator</span></div><div><p class="lead">I lead Stars Haven Childcare, a YMCA Licensed Home Childcare program in the Port of Newcastle.</p><p>Our days bring together play, outdoor time, meals, rest and the small moments that help children feel comfortable and connected.</p><a class="text-link" href="./about/">Get to know Stars Haven <span aria-hidden="true">→</span></a></div></section>
@@ -136,14 +136,14 @@ VALUES = [
     ("Belonging", "Children and families feel welcome and connected."),
     ("Joy in play", "Learning through laughter, curiosity and discovery."),
     ("Thoughtful care", "Careful attention to the environment, routines and relationships."),
-    ("Faith and purpose", "Our approach is grounded in Christian values."),
+    ("Kindness and respect", "We model compassion, fairness and respect for every child and family."),
     ("Growth", "Supporting confidence, independence and each child’s development."),
 ]
 
-ABOUT_BODY = intro("A little more about us", "Care begins with connection.", "At Stars Haven, we nurture joyful, confident and kind-hearted children through rich play, meaningful relationships and Christian values.") + f"""
+ABOUT_BODY = intro("A little more about us", "Care begins with connection.", "At Stars Haven, we nurture joyful, confident and kind-hearted children through rich play, meaningful relationships and a strong sense of belonging.") + f"""
 <section class="section wrap two-column"><div><p class="eyebrow">Your educator</p><h2>Mary Aliu, RECE</h2><p class="lead">Registered Early Childhood Educator and Stars Haven home childcare provider.</p></div><div><p>Stars Haven is a YMCA Licensed Home Childcare program in the Port of Newcastle. Our small group setting offers space for relationships, gentle transitions and learning through everyday play.</p><p>We value working with families. Sharing your child’s interests, routines and needs helps us get to know them and plan for their time in care.</p></div></section>
 <section class="section wrap"><p class="eyebrow">What matters to us</p><h2>Our values, in everyday moments.</h2><div class="cards three">{''.join(f'<article class="card"><span class="value-number">0{i}</span><h3>{heading}</h3><p>{copy}</p></article>' for i, (heading, copy) in enumerate(VALUES, 1))}</div></section>
-<section class="quote-band"><div class="wrap"><p class="eyebrow">Our vision</p><p class="vision">A beacon of faith-filled early learning where every child shines with purpose and belonging.</p></div></section>
+<section class="quote-band"><div class="wrap"><p class="eyebrow">Our vision</p><p class="vision">A welcoming early learning community where every child shines with purpose and belonging.</p></div></section>
 {cta('../')}
 """
 
