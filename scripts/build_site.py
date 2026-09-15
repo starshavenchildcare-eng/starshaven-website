@@ -3,8 +3,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 
-FORM_URL = "https://bit.ly/4as5Cgs"
-FORM_EMBED_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdVy-qEtHOOr5HUt82IlAuSq966nuetUYN3DJNvoYyVbgRt3Q/viewform?embedded=true"
 MENU_URL = "https://bit.ly/4bmp3aV"
 EMAIL = "starshavenchildcare@gmail.com"
 PHONE_DISPLAY = "437-990-1634"
@@ -156,8 +154,30 @@ FAQ = [
 ]
 
 ENROLMENT_BODY = intro("A thoughtful start", "Let’s find the right fit.", "Tell us a little about your child and the childcare you’re looking for. We’ll take the next steps together.") + f"""
-<section class="enrol-panel wrap"><div><h2>Start with an enquiry.</h2><p>Use our pre-enrolment form to enquire about care or ask to join the waitlist.</p><p class="small">Submitting an enquiry does not guarantee or reserve a childcare space.</p></div>{button('Open pre-enrolment form', FORM_URL, False, True)}</section>
-<section class="section wrap form-section" aria-labelledby="form-title"><div class="form-heading"><p class="eyebrow">Pre-enrolment form</p><h2 id="form-title">Tell us about your childcare needs.</h2><p>Complete the form below. If it does not display properly on your device, use the open-form button above.</p></div><div class="form-embed"><iframe src="{FORM_EMBED_URL}" title="Stars Haven pre-enrolment form" loading="lazy">Loading…</iframe></div></section>
+<section class="enrol-panel wrap"><div><h2>Start with an enquiry.</h2><p>Complete the form below to enquire about care or ask to join the waitlist.</p><p class="small">Submitting an enquiry does not guarantee or reserve a childcare space.</p></div><a class="button button-secondary" href="#pre-enrolment-form">Go to the form<span aria-hidden="true">↓</span></a></section>
+<section class="section wrap form-section" aria-labelledby="form-title"><div class="form-heading"><p class="eyebrow">Pre-enrolment form</p><h2 id="form-title">Tell us about your childcare needs.</h2><p>Fields marked with an asterisk are required. Mary will review your enquiry and contact you about availability and next steps.</p></div>
+<form id="pre-enrolment-form" class="native-form" name="pre-enrolment" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="pre-enrolment">
+  <input type="hidden" name="subject" value="New Stars Haven pre-enrolment enquiry">
+  <p class="bot-field"><label>Leave this field empty: <input name="bot-field" autocomplete="off"></label></p>
+  <div class="form-grid">
+    <label><span>Parent/guardian full name <b aria-hidden="true">*</b></span><input type="text" name="parent-name" autocomplete="name" required></label>
+    <label><span>Email address <b aria-hidden="true">*</b></span><input type="email" name="email" autocomplete="email" required></label>
+    <label><span>Phone number <b aria-hidden="true">*</b></span><input type="tel" name="phone" autocomplete="tel" required></label>
+    <label><span>Child’s full name <b aria-hidden="true">*</b></span><input type="text" name="child-name" required></label>
+    <label><span>Child’s date of birth <b aria-hidden="true">*</b></span><input type="date" name="child-date-of-birth" required></label>
+    <label><span>Preferred start date <b aria-hidden="true">*</b></span><input type="date" name="preferred-start-date" required></label>
+    <fieldset><legend>Care needed <b aria-hidden="true">*</b></legend><div class="choice-row"><label><input type="radio" name="care-needs" value="Full-time" required> Full-time</label><label><input type="radio" name="care-needs" value="Part-time"> Part-time</label></div></fieldset>
+    <fieldset><legend>Current location <b aria-hidden="true">*</b></legend><select name="current-location" required><option value="">Select your area</option><option>Newcastle</option><option>Bowmanville</option><option>Courtice</option><option>Other</option></select></fieldset>
+    <fieldset class="full"><legend>Preferred days <b aria-hidden="true">*</b></legend><div class="choice-grid"><label><input type="checkbox" name="preferred-days" value="Monday"> Monday</label><label><input type="checkbox" name="preferred-days" value="Tuesday"> Tuesday</label><label><input type="checkbox" name="preferred-days" value="Wednesday"> Wednesday</label><label><input type="checkbox" name="preferred-days" value="Thursday"> Thursday</label><label><input type="checkbox" name="preferred-days" value="Friday"> Friday</label></div><p class="field-note">Select all days that apply.</p></fieldset>
+    <label class="full"><span>Allergies, special needs or medical considerations</span><textarea name="allergies-and-considerations" rows="4" placeholder="Write None if there are no considerations to share."></textarea></label>
+    <label><span>How did you hear about Stars Haven? <b aria-hidden="true">*</b></span><select name="referral-source" required><option value="">Choose one</option><option>Friend or family</option><option>Facebook</option><option>Instagram</option><option>Local parent group</option><option>Flyer or community centre</option><option>Other</option></select></label>
+    <fieldset><legend>Join the waitlist if no space is available? <b aria-hidden="true">*</b></legend><div class="choice-row"><label><input type="radio" name="join-waitlist" value="Yes" required> Yes</label><label><input type="radio" name="join-waitlist" value="No"> No</label></div></fieldset>
+    <label class="full"><span>Additional comments or questions</span><textarea name="comments" rows="5"></textarea></label>
+  </div>
+  <p class="form-privacy">Your information will be used only to respond to your childcare enquiry. See our <a href="../privacy/">website privacy information</a>.</p>
+  <button class="button submit-button" type="submit">Send enquiry <span aria-hidden="true">→</span></button>
+</form></section>
 <section class="section wrap"><p class="eyebrow">What happens next</p><h2>Three steps to get acquainted.</h2><ol class="cards three steps"><li class="card"><span class="value-number">01</span><h3>Share your needs</h3><p>Tell us your child’s age, preferred start date and the days and hours you need.</p></li><li class="card"><span class="value-number">02</span><h3>Connect with Mary</h3><p>Discuss availability, ask questions and arrange a meet and greet when appropriate.</p></li><li class="card"><span class="value-number">03</span><h3>Plan the next steps</h3><p>If a place is agreed, complete the YMCA registration process and discuss your child’s transition.</p></li></ol></section>
 <section class="section wrap faq-section"><div><p class="eyebrow">Questions are welcome</p><h2>A few things families ask.</h2></div><div class="faq-list">{''.join(f'<details><summary>{question}</summary><p>{answer}</p></details>' for question, answer in FAQ)}</div></section>
 """
@@ -169,11 +189,15 @@ LICENSED_BODY = intro("YMCA Licensed Home Childcare", "A home setting.<br>A lice
 """
 
 CONTACT_BODY = intro("We’d love to hear from you", "Hello, neighbour.", "Whether you’re exploring your options or ready to enquire, let’s talk about what your family needs.") + f"""
-<section class="section wrap contact-grid"><div class="contact-card"><p class="eyebrow">Get in touch</p><h2>Speak with Mary.</h2><dl><div><dt>Email</dt><dd><a href="mailto:{EMAIL}">{EMAIL}</a></dd></div><div><dt>Phone</dt><dd><a href="tel:{PHONE_LINK}">{PHONE_DISPLAY}</a></dd></div><div><dt>Location</dt><dd>Port of Newcastle, Ontario</dd></div><div><dt>Typical hours</dt><dd>Monday–Friday, 8:00 a.m.–4:00 p.m.<br><span class="small">Occasional flexibility may be discussed with Mary.</span></dd></div></dl></div><div class="contact-aside"><span class="card-symbol" aria-hidden="true">✦</span><h2>Looking for childcare?</h2><p>Our pre-enrolment form is a helpful place to tell us about your child and your preferred schedule.</p>{button('Enquire about care', FORM_URL, False, True)}<p class="small">We can also discuss a meet and greet at a suitable time.</p></div></section>
+<section class="section wrap contact-grid"><div class="contact-card"><p class="eyebrow">Get in touch</p><h2>Speak with Mary.</h2><dl><div><dt>Email</dt><dd><a href="mailto:{EMAIL}">{EMAIL}</a></dd></div><div><dt>Phone</dt><dd><a href="tel:{PHONE_LINK}">{PHONE_DISPLAY}</a></dd></div><div><dt>Location</dt><dd>Port of Newcastle, Ontario</dd></div><div><dt>Typical hours</dt><dd>Monday–Friday, 8:00 a.m.–4:00 p.m.<br><span class="small">Occasional flexibility may be discussed with Mary.</span></dd></div></dl></div><div class="contact-aside"><span class="card-symbol" aria-hidden="true">✦</span><h2>Looking for childcare?</h2><p>Our pre-enrolment form is a helpful place to tell us about your child and your preferred schedule.</p>{button('Enquire about care', '../enrolment-waitlist/')}<p class="small">We can also discuss a meet and greet at a suitable time.</p></div></section>
 """
 
 PRIVACY_BODY = intro("Website information", "Your enquiry, your choice.", "You can browse this website without submitting personal information.") + f"""
-<section class="section wrap prose"><h2>Browsing the website</h2><p>This website does not include analytics scripts, advertising trackers or an on-site enquiry database. The hosting provider may process technical information, such as IP addresses and request logs, to deliver and protect the site.</p><h2>Enrolment enquiries</h2><p>The pre-enrolment button opens the existing Stars Haven Google Form. Information you submit is handled through that form and its provider. Please direct questions about your enquiry or information to Mary.</p><h2>Other links</h2><p>Menu and social links open services with their own privacy practices. Contacting us by email or telephone uses your chosen email or telephone service.</p><h2>Questions</h2><p>Email <a href="mailto:{EMAIL}">{EMAIL}</a> to ask about the information you share with Stars Haven.</p></section>
+<section class="section wrap prose"><h2>Browsing the website</h2><p>This website does not include analytics scripts or advertising trackers. The hosting provider may process technical information, such as IP addresses and request logs, to deliver and protect the site.</p><h2>Enrolment enquiries</h2><p>The pre-enrolment form is processed and stored by Netlify on behalf of Stars Haven Childcare. The information you provide is used to review your childcare needs, contact you about availability and manage the enquiry or waitlist process. Please do not include information beyond what is reasonably needed for your enquiry.</p><h2>Other links</h2><p>Menu and social links open services with their own privacy practices. Contacting us by email or telephone uses your chosen email or telephone service.</p><h2>Questions</h2><p>Email <a href="mailto:{EMAIL}">{EMAIL}</a> to ask about the information you share with Stars Haven.</p></section>
+"""
+
+THANK_YOU_BODY = intro("Enquiry received", "Thank you for getting in touch.", "Your pre-enrolment enquiry has been submitted to Stars Haven Childcare.") + f"""
+<section class="section wrap prose"><h2>What happens next?</h2><p>Mary will review the information you provided and contact you about availability and next steps. Submitting an enquiry does not guarantee or reserve a childcare space.</p><div class="actions">{button('Return to the homepage', '../')}{button('Contact Mary', '../contact/', True)}</div></section>
 """
 
 
@@ -186,6 +210,7 @@ PAGES = {
     "licensing-journey/index.html": render("licensed", "YMCA licensed home childcare", "Information about Stars Haven’s current YMCA Licensed Home Childcare program and enrolment.", LICENSED_BODY, "licensing-journey"),
     "contact/index.html": render("contact", "Contact Stars Haven", "Contact Mary at Stars Haven Childcare in Port of Newcastle to discuss availability, care needs and a meet and greet.", CONTACT_BODY, "contact"),
     "privacy/index.html": render("", "Website privacy", "How this informational website links families to Stars Haven’s existing contact and pre-enrolment options.", PRIVACY_BODY, "privacy"),
+    "thank-you/index.html": render("", "Thank you", "Confirmation that a Stars Haven Childcare pre-enrolment enquiry was submitted.", THANK_YOU_BODY, "thank-you", robots="noindex, follow"),
 }
 
 PAGES["404.html"] = render(
