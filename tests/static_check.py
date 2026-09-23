@@ -86,6 +86,8 @@ for page in html_files:
     for stale in ("not licensed by the Government of Ontario", "Opening Sept 2025", "7am - 6pm"):
         if stale.casefold() in text.casefold():
             errors.append(f"{page}: contains stale wording {stale!r}")
+    if "437-990-1634" in text or "tel:+14379901634" in text:
+        errors.append(f"{page}: contains the removed phone number")
 
 if errors:
     raise SystemExit("\n".join(errors))

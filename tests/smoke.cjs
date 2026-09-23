@@ -3,7 +3,7 @@ const path = require("node:path");
 const { chromium } = require("playwright");
 
 const baseURL = process.env.BASE_URL || "http://127.0.0.1:4173";
-const routes = ["/", "/home/", "/about/", "/programs/", "/enrolment-waitlist/", "/licensing-journey/", "/contact/", "/privacy/", "/thank-you/"];
+const routes = ["/", "/about/", "/services/", "/families/", "/professionals/", "/book/", "/childcare/", "/contact/", "/privacy/", "/booking-thank-you/", "/childcare-thank-you/"];
 const reviewDir = path.resolve("review");
 fs.mkdirSync(reviewDir, { recursive: true });
 
@@ -29,7 +29,7 @@ function assert(condition, message) {
       for (const route of routes) {
         const response = await page.goto(baseURL + route, { waitUntil: "networkidle" });
         assert(response && response.ok(), `${viewport.name} ${route} returned ${response && response.status()}`);
-        assert((await page.title()).includes("Stars Haven Childcare"), `${route} has an unexpected title`);
+        assert((await page.title()).includes("Stars Haven Academy"), `${route} has an unexpected title`);
         assert((await page.locator("h1").count()) === 1, `${route} does not have exactly one h1`);
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
         assert(overflow <= 1, `${viewport.name} ${route} overflows horizontally by ${overflow}px`);
@@ -53,14 +53,18 @@ function assert(condition, message) {
 
     const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
     const page = await context.newPage();
-    await page.goto(baseURL + "/enrolment-waitlist/", { waitUntil: "networkidle" });
+    await page.goto(baseURL + "/childcare/", { waitUntil: "networkidle" });
     assert(await page.locator('form[name="pre-enrolment"][data-netlify="true"]').count(), "Netlify pre-enrolment form is missing");
-    assert((await page.locator('form[name="pre-enrolment"]').getAttribute("action")) === "/thank-you", "Form confirmation route is incorrect");
+    assert((await page.locator('form[name="pre-enrolment"]').getAttribute("action")) === "/childcare-thank-you", "Form confirmation route is incorrect");
     assert(await page.locator('input[name="preferred-drop-off-time"][type="time"]').count(), "Preferred drop-off time is missing");
     assert(await page.locator('input[name="preferred-pickup-time"][type="time"]').count(), "Preferred pickup time is missing");
     await page.locator("details").first().click();
     await page.screenshot({ path: path.join(reviewDir, "enrolment-mobile.png"), fullPage: true });
-    assert(await page.locator('a[href="mailto:starshavenchildcare@gmail.com"]').count(), "Current contact email is missing");
+    assert(await page.locator('a[href="mailto:starshavenacademy@gmail.com"]').count(), "Current contact email is missing");
+    await page.goto(baseURL + "/book/", { waitUntil: "networkidle" });
+    assert(await page.locator('form[name="consultation-request"][data-netlify="true"]').count(), "Consultation request form is missing");
+    assert((await page.locator('form[name="consultation-request"]').getAttribute("action")) === "/booking-thank-you", "Consultation confirmation route is incorrect");
+    assert((await page.locator('input[type="tel"]').count()) === 0, "Consultation form should not request a phone number");
     await context.close();
 
     const noJs = await browser.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false });
