@@ -3,7 +3,7 @@ const path = require("node:path");
 const { chromium } = require("playwright");
 
 const baseURL = process.env.BASE_URL || "http://127.0.0.1:4173";
-const routes = ["/", "/about/", "/services/", "/families/", "/professionals/", "/book/", "/childcare/", "/contact/", "/privacy/", "/booking-thank-you/", "/childcare-thank-you/"];
+const routes = ["/", "/about/", "/services/", "/families/", "/professionals/", "/book-a-consultation/", "/childcare/", "/contact/", "/privacy/", "/booking-thank-you/", "/childcare-thank-you/"];
 const reviewDir = path.resolve("review");
 fs.mkdirSync(reviewDir, { recursive: true });
 
@@ -61,7 +61,7 @@ function assert(condition, message) {
     await page.locator("details").first().click();
     await page.screenshot({ path: path.join(reviewDir, "enrolment-mobile.png"), fullPage: true });
     assert(await page.locator('a[href="mailto:starshavenacademy@gmail.com"]').count(), "Current contact email is missing");
-    await page.goto(baseURL + "/book/", { waitUntil: "networkidle" });
+    await page.goto(baseURL + "/book-a-consultation/", { waitUntil: "networkidle" });
     assert(await page.locator('form[name="consultation-request"][data-netlify="true"]').count(), "Consultation request form is missing");
     assert((await page.locator('form[name="consultation-request"]').getAttribute("action")) === "/booking-thank-you", "Consultation confirmation route is incorrect");
     assert((await page.locator('input[type="tel"]').count()) === 0, "Consultation form should not request a phone number");

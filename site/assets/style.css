@@ -82,6 +82,8 @@ main:focus { outline: none; }
 .facts > div:last-child { border: 0; }
 .fact-label { display: block; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 5px; color: var(--muted); }
 .facts strong { font-weight: 550; font-size: .98rem; }
+.photo-panel { margin-block: 45px 12px; overflow: hidden; border-radius: 18px; background: var(--sage); box-shadow: 0 12px 34px rgba(38, 62, 54, .08); }
+.photo-panel img { display: block; width: 100%; height: clamp(280px, 44vw, 520px); object-fit: cover; }
 .availability { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding-block: 22px; border-bottom: 1px solid var(--line); }
 .availability > div { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
 .availability-dot { width: 9px; height: 9px; border-radius: 50%; background: #4f7a5d; box-shadow: 0 0 0 4px #dce9df; }
@@ -278,6 +280,8 @@ main:focus { outline: none; }
   .facts strong { font-size: .87rem; }
   .fact-label { font-size: .64rem; }
   .facts > div { padding-right: 8px; }
+  .photo-panel { margin-block: 28px 4px; border-radius: 12px; }
+  .photo-panel img { height: 260px; }
   .availability { align-items: flex-start; flex-direction: column; gap: 8px; }
   .availability > div { white-space: normal; }
   .section { padding-block: 40px; }
