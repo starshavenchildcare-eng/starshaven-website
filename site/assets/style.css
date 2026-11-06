@@ -349,3 +349,24 @@ main:focus { outline: none; }
   .button { color: black; background: white; }
   .footer-grid { display: block; }
 }
+
+/* Early Years Matter publication library */
+.publication-section { padding-top: 58px; }
+.publication-feature { display: grid; grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr); gap: clamp(32px, 6vw, 76px); align-items: center; border: 1px solid var(--line); border-radius: 20px; padding: clamp(24px, 4vw, 46px); background: #fff; box-shadow: 0 14px 38px rgba(38, 62, 54, .07); }
+.publication-cover { display: block; max-width: 430px; margin-inline: auto; border-radius: 8px; overflow: hidden; box-shadow: 0 15px 35px rgba(38, 62, 54, .16); background: var(--cream); }
+.publication-cover img { width: 100%; height: auto; display: block; }
+.publication-cover-card { position: relative; aspect-ratio: 3 / 4.25; }
+.publication-cover-card img { height: 100%; object-fit: cover; }
+.publication-cover-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(22,45,37,.05) 35%, rgba(22,45,37,.88) 100%); }
+.publication-cover-text { position: absolute; z-index: 1; left: 24px; right: 24px; bottom: 26px; color: #fff; display: grid; gap: 7px; }
+.publication-cover-text small { font-size: .7rem; font-style: normal; text-transform: uppercase; letter-spacing: .09em; }
+.publication-cover-text strong { font: 400 clamp(1.7rem, 3.1vw, 2.55rem)/1.04 var(--serif); }
+.publication-cover-text em { font-size: .74rem; font-style: normal; opacity: .88; }
+.publication-copy h2 { font-size: clamp(2rem, 4vw, 3.25rem); margin-bottom: 18px; }
+.publication-copy > p:not(.resource-meta):not(.share-feedback) { max-width: 660px; }
+.resource-meta { margin: 0 0 14px; font-size: .75rem; font-weight: 650; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.resource-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 27px; }
+.resource-actions .button { min-height: 48px; cursor: pointer; }
+.share-feedback { min-height: 1.4em; margin: 13px 0 0; color: var(--muted); }
+@media (max-width: 800px) { .publication-feature { grid-template-columns: 1fr; } .publication-cover { max-width: 360px; } }
+@media (max-width: 650px) { .publication-section { padding-top: 38px; } .publication-feature { padding: 20px; border-radius: 14px; gap: 28px; } .resource-actions { align-items: stretch; flex-direction: column; } .resource-actions .button { width: 100%; } }
