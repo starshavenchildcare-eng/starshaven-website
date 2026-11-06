@@ -48,3 +48,24 @@ if (enrolmentForm) {
   preferredDays.forEach((day) => day.addEventListener("change", validatePreferredDays));
   enrolmentForm.addEventListener("submit", validatePreferredDays);
 }
+
+document.querySelectorAll(".share-resource").forEach((button) => {
+  button.addEventListener("click", async () => {
+    const url = button.dataset.shareUrl;
+    const title = button.dataset.shareTitle || document.title;
+    const feedback = button.closest(".publication-copy")?.querySelector(".share-feedback");
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, url });
+        if (feedback) feedback.textContent = "Share options opened.";
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+        if (feedback) feedback.textContent = "Link copied. You can now paste it into a message or email.";
+      } else {
+        window.prompt("Copy this resource link:", url);
+      }
+    } catch (error) {
+      if (error?.name !== "AbortError" && feedback) feedback.textContent = "Use the Read issue link, then share the PDF from your browser.";
+    }
+  });
+});
