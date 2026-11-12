@@ -1,0 +1,16 @@
+name: Package current production site
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stars-haven-production-site
+          path: site
+          retention-days: 1
